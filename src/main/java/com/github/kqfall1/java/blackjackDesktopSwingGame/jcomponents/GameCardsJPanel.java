@@ -18,19 +18,19 @@ public final class GameCardsJPanel extends JPanel
     public GameCardsJPanel()
     {
         activePlayerHandJPanel = new JPanel();
-        activePlayerHandJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, UiConstants.MARGIN_EXTRA_SMALL, UiConstants.MARGIN_SMALL));
+        activePlayerHandJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, UiConstants.MARGIN_HORIZONTAL_EXTRA_SMALL, UiConstants.MARGIN_VERTICAL_SMALL));
         activePlayerHandJPanel.setOpaque(false);
         dealerHandJPanel = new JPanel();
-        dealerHandJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, UiConstants.MARGIN_EXTRA_SMALL, UiConstants.MARGIN_EXTRA_SMALL));
+        dealerHandJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, UiConstants.MARGIN_HORIZONTAL_EXTRA_SMALL, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         dealerHandJPanel.setOpaque(false);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         add(dealerHandJPanel);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_LARGE));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_LARGE));
         add(activePlayerHandJPanel);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
     }
 
     public JPanel getActivePlayerHandJPanel()

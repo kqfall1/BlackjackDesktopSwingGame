@@ -27,7 +27,7 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
 {
     private final JCheckBox doublingDownOnSplitHandsAllowed;
     private final JLabel errorJLabel;
-    private final Insets JCOMPONENT_INSETS = new Insets(UiConstants.MARGIN_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_EXTRA_EXTRA_SMALL);
+    private final Insets JCOMPONENT_INSETS = new Insets(UiConstants.MARGIN_VERTICAL_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_VERTICAL_EXTRA_EXTRA_SMALL, UiConstants.MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL);
     private final JCheckBox loggingEnabled;
     private final JSpinner maximumSplitCountInput;
     private final JLabel maximumSplitCountJLabel;
@@ -132,9 +132,9 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
         playButtonPanelWrapper.add(playButton);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         add(jCheckBoxPanelWrapper);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         add(jTextFieldPanelWrapper);
         add(errorJLabelPanelWrapper);
         add(playButtonPanelWrapper);

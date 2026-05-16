@@ -242,9 +242,11 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
     @Override
     public void onCardDealtToDealer(Card card, Hand dealerHand, boolean isFaceUp)
     {
+        final var cardJLabel = new CardJLabel(card, isFaceUp);
         SwingUtilities.invokeLater(() ->
         {
-            gameCardsJPanel.getDealerHandJPanel().add(new CardJLabel(card, isFaceUp));
+            gameCardsJPanel.getDealerHandJPanel().add(cardJLabel);
+            cardJLabel.render(isFaceUp);
             gameCardsJPanel.getDealerHandJPanel().revalidate();
             gameCardsJPanel.getDealerHandJPanel().repaint();
         });
@@ -411,10 +413,11 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
     @Override
     public void onShowdownStarted(Hand dealerHand, HandContext handContext)
     {
+        final var dealerDownCardJLabel = ((CardJLabel) gameCardsJPanel.getDealerHandJPanel().getComponents()[BlackjackConstants.INITIAL_CARD_COUNT - 1]);
         SwingUtilities.invokeLater(() ->
         {
             gameInfoJPanel.getAdvanceEngineJButton().getAction().setEnabled(false);
-            ((CardJLabel) gameCardsJPanel.getDealerHandJPanel().getComponents()[BlackjackConstants.INITIAL_CARD_COUNT - 1]).setFaceUp(true);
+            dealerDownCardJLabel.render(true);
         });
     }
 
@@ -465,9 +468,11 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
 
     private void renderCardForPlayer(Card card)
     {
+        final var cardJLabel = new CardJLabel(card, true);
         SwingUtilities.invokeLater(() ->
         {
-            gameCardsJPanel.getActivePlayerHandJPanel().add(new CardJLabel(card, true));
+            gameCardsJPanel.getActivePlayerHandJPanel().add(cardJLabel);
+            cardJLabel.render(true);
             gameCardsJPanel.getActivePlayerHandJPanel().revalidate();
             gameCardsJPanel.getActivePlayerHandJPanel().repaint();
         });

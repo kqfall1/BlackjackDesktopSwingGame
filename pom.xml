@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.kqfall1</groupId>
     <artifactId>BlackjackDesktopSwingGame</artifactId>
-    <url>https://github.com/kqfall1/BlackjackDesktopSwingGame.git</url>
+    <url>https://github.com/kqfall1/BlackjackDesktopSwingGame</url>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <build>
         <plugins>
             <plugin>

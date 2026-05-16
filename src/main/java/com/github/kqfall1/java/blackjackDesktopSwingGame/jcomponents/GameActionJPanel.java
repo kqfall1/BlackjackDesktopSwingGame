@@ -32,15 +32,15 @@ public class GameActionJPanel extends JPanel
         surrenderJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(UiConstants.MARGIN_LARGE));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_LARGE));
         add(doubleDownJButton);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(hitJButton);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(splitJButton);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(standJButton);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(surrenderJButton);
     }
 

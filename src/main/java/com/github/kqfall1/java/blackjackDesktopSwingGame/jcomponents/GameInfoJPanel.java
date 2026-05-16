@@ -60,26 +60,26 @@ public final class GameInfoJPanel extends JPanel implements FailurePresenter
         final var gameInfoWrapper = new JPanel();
         gameInfoWrapper.setLayout(new BoxLayout(gameInfoWrapper, BoxLayout.Y_AXIS));
         gameInfoWrapper.add(dealerHandScoreJLabel);
-        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_MEDIUM));
+        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_MEDIUM));
         gameInfoWrapper.add(playerChipAmountJLabel);
-        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         gameInfoWrapper.add(activeHandContextHandScoreJLabel);
-        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_MEDIUM));
+        gameInfoWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_MEDIUM));
 
         final var gameInputWrapper = new JPanel();
         gameInputWrapper.setLayout(new BoxLayout(gameInputWrapper, BoxLayout.Y_AXIS));
-        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         gameInputWrapper.add(playerInputJTextField);
-        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         gameInputWrapper.add(submitJButton);
-        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         gameInputWrapper.add(advanceEngineJButton);
-        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         gameInputWrapper.add(allInJButton);
-        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_EXTRA_SMALL));
+        gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(UiConstants.MARGIN_SMALL));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
         add(gameInfoWrapper);
         add(gameInputWrapper);
         add(engineMessageJScrollPane);
