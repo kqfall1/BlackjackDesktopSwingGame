@@ -2,11 +2,13 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.jcomponents;
 
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
 import com.github.kqfall1.java.frameworks.awt.AwtUtils;
+import com.github.kqfall1.java.frameworks.awt.VerticalStrutJPanel;
 import com.github.kqfall1.java.frameworks.awt.swing.ValidatedJTextField;
 import com.github.kqfall1.java.interfaces.FailurePresenter;
 import java.awt.*;
 import java.util.Optional;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Contains all {@code JComponent} objects required to provide general information about the blackjack game.
@@ -47,7 +49,10 @@ public final class GameInfoJPanel extends JPanel implements FailurePresenter
             @Override
             public Dimension getPreferredSize()
             {
-                return UiConstants.getSizeRelativeToDisplayBounds(this, UiConstants.GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_WIDTH_MULTIPLIER, UiConstants.GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_HEIGHT_MULTIPLIER);
+                return AwtUtils.getSizeRelativeToDisplayBounds(
+                    this,
+                    UiConstants.GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_WIDTH_MULTIPLIER,
+                    UiConstants.GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_HEIGHT_MULTIPLIER).orElseGet(Dimension::new);
             }
         };
         engineMessageJScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -63,29 +68,34 @@ public final class GameInfoJPanel extends JPanel implements FailurePresenter
         final var gameInfoWrapper = new JPanel();
         gameInfoWrapper.setLayout(new BoxLayout(gameInfoWrapper, BoxLayout.Y_AXIS));
         gameInfoWrapper.add(dealerHandScoreJLabel);
-        gameInfoWrapper.add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_MEDIUM_MULTIPLIER));
+        gameInfoWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_MEDIUM_MULTIPLIER));
         gameInfoWrapper.add(playerChipAmountJLabel);
-        gameInfoWrapper.add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        gameInfoWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         gameInfoWrapper.add(activeHandContextHandScoreJLabel);
-        gameInfoWrapper.add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_MEDIUM_MULTIPLIER));
+        gameInfoWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_MEDIUM_MULTIPLIER));
 
         final var gameInputWrapper = new JPanel();
         gameInputWrapper.setLayout(new BoxLayout(gameInputWrapper, BoxLayout.Y_AXIS));
-        gameInputWrapper.add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        gameInputWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         gameInputWrapper.add(playerInputJTextField);
         gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         gameInputWrapper.add(submitJButton);
-        gameInputWrapper.add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        gameInputWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         gameInputWrapper.add(advanceEngineJButton);
         gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         gameInputWrapper.add(allInJButton);
         gameInputWrapper.add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
 
+        final var componentWrapper = new JPanel();
+        componentWrapper.setBorder(new EmptyBorder(UiConstants.GAME_SIDEBAR_INSETS));
+        componentWrapper.setLayout(new BoxLayout(componentWrapper, BoxLayout.Y_AXIS));
+        componentWrapper.add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        componentWrapper.add(gameInfoWrapper);
+        componentWrapper.add(gameInputWrapper);
+        componentWrapper.add(engineMessageJScrollPane);
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
-        add(gameInfoWrapper);
-        add(gameInputWrapper);
-        add(engineMessageJScrollPane);
+        add(componentWrapper);
     }
 
     @Override
@@ -98,8 +108,9 @@ public final class GameInfoJPanel extends JPanel implements FailurePresenter
             {
                 jLabel.setFont(new Font(
                     UiConstants.JLABEL_LARGE_FONT_NAME,
-                    0,
-                    UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JLABEL_LARGE_FONT_SIZE_MULTIPLIER).height
+                    Font.PLAIN,
+                    AwtUtils.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JLABEL_LARGE_FONT_SIZE_MULTIPLIER)
+                        .orElseGet(() -> new Dimension(0, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL)).height
                 ));
             }
             revalidate();

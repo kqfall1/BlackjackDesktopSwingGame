@@ -2,6 +2,7 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.jcomponents;
 
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
 import com.github.kqfall1.java.blackjackEngine.cards.Card;
+import com.github.kqfall1.java.frameworks.awt.AwtUtils;
 import com.github.kqfall1.java.utils.StringUtils;
 import java.awt.*;
 import javax.swing.*;
@@ -28,7 +29,8 @@ public final class CardJLabel extends JLabel
     @Override
     public Dimension getPreferredSize()
     {
-        return UiConstants.getSizeRelativeToDisplayBounds(this, UiConstants.CARD_IMAGE_WIDTH_MULTIPLIER, UiConstants.CARD_IMAGE_HEIGHT_MULTIPLIER);
+        return AwtUtils.getSizeRelativeToDisplayBounds(this, UiConstants.CARD_IMAGE_WIDTH_MULTIPLIER, UiConstants.CARD_IMAGE_HEIGHT_MULTIPLIER)
+            .orElseGet(() -> new Dimension(UiConstants.CARD_DEFAULT_WIDTH, UiConstants.CARD_DEFAULT_HEIGHT));
     }
 
     public void render(boolean faceUp)

@@ -2,7 +2,6 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.ui;
 
 import com.github.kqfall1.java.blackjackEngine.cards.Shoe;
 import java.awt.*;
-import java.util.Optional;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,6 +18,8 @@ public final class UiConstants
     public static final String BACK_OF_CARD_IMAGE_FILE_NAME = "back_of_card.png";
     public static final ImageIcon BLACKJACK_JFRAME_LOGO = new ImageIcon(UiConstants.class.getResource("/images/logo.jpg"));
     public static final String BLACKJACK_JFRAME_TITLE = "Blackjack";
+    public static final int CARD_DEFAULT_HEIGHT = 200;
+    public static final int CARD_DEFAULT_WIDTH = 150;
     public static final double CARD_IMAGE_HEIGHT_MULTIPLIER = 0.25;
     public static final double CARD_IMAGE_WIDTH_MULTIPLIER = 0.06;
     public static final Border BORDER_RED = BorderFactory.createLineBorder(Color.RED);
@@ -29,6 +30,8 @@ public final class UiConstants
     public static final String GAME_ACTION_DOUBLE_DOWN_LABEL = "Double Down";
     public static final String GAME_ACTION_EXIT_LABEL = "Exit";
     public static final String GAME_ACTION_HIT_LABEL = "Hit";
+    public static final double GAME_ACTION_JBUTTON_HEIGHT_MULTIPLIER = 0.02;
+    public static final double GAME_ACTION_JBUTTON_WIDTH_MULTIPLIER = 0.075;
     public static final String GAME_ACTION_MAIN_MENU_LABEL = "Main Menu";
     public static final String GAME_ACTION_NEW_GAME_LABEL = "New Game";
     public static final String GAME_ACTION_SPLIT_LABEL = "Split";
@@ -37,7 +40,7 @@ public final class UiConstants
     public static final String GAME_ACTION_SURRENDER_LABEL = "Surrender";
     public static final String GAME_CONFIG_JDIALOG_DOUBLING_DOWN_ON_SPLIT_HANDS_ALLOWED_LABEL = "Is doubling down on split hands allowed?";
     public static final String GAME_CONFIG_JDIALOG_FAILURE_LABEL = "One or more inputs is invalid.";
-    public static final double GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER = 0.4;
+    public static final double GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER = 0.5;
     public static final String GAME_CONFIG_JDIALOG_LOGGING_ENABLED_LABEL = "Is logging enabled?";
     public static final String GAME_CONFIG_JDIALOG_MAXIMUM_SPLIT_COUNT_LABEL = "Maximum split count:";
     public static final String GAME_CONFIG_JDIALOG_MINIMUM_BET_AMOUNT_LABEL = "Minimum bet amount:";
@@ -65,6 +68,10 @@ public final class UiConstants
     public static final String GAME_MESSAGE_SHOWDOWN_COLLECTION = "You have collected $";
     public static final String GAME_MESSAGE_SHOWDOWN_WON = "You have won a showdown!";
     public static final String GAME_MESSAGE_SPLIT = "You have elected to split.";
+    public static final Dimension PRIMARY_SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.003);
+    public static final Insets GAME_SIDEBAR_INSETS = new Insets(0, MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL, 0, MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL);
+    public static final int ICON_HEIGHT_AND_WIDTH = 32;
     public static final double JBUTTON_LARGE_FONT_SIZE_MULTIPLIER = 0.017;
     public static final String JBUTTON_LARGE_FONT_NAME = "Rockwell";
     public static final double JBUTTON_LARGE_HEIGHT_MULTIPLIER = 0.09525;
@@ -73,11 +80,9 @@ public final class UiConstants
     public static final double JLABEL_LARGE_FONT_SIZE_MULTIPLIER = 0.01525;
     public static final String JLABEL_LARGE_FONT_NAME = "Georgia";
     public static final String JMENU_FILE_LABEL = "File";
-    public static final Dimension PRIMARY_SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int MARGIN_HORIZONTAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.00595);
     public static final int MARGIN_VERTICAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.0095);
     public static final Insets JTEXT_AREA_INSETS = new Insets(MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL, MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL);
-    public static final int MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.003);
     public static final int MARGIN_VERTICAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.00475);
     public static final double MARGIN_VERTICAL_LARGE_MULTIPLIER = 0.33333;
     public static final double MARGIN_VERTICAL_MEDIUM_MULTIPLIER = 0.09525;
@@ -87,34 +92,8 @@ public final class UiConstants
 
     private UiConstants() {}
 
-    public static Dimension getSizeRelativeToDisplayBounds(Component component, double widthMultiplier, double heightMultiplier)
-    {
-        final var optionalDisplayBounds = Optional.of(SwingUtilities.getAncestorOfClass(Frame.class, component).getGraphicsConfiguration().getBounds());
-        return new Dimension(
-            (int) (optionalDisplayBounds.orElse(new Rectangle()).getWidth() * widthMultiplier),
-            (int) (optionalDisplayBounds.orElse(new Rectangle()).getHeight() * heightMultiplier)
-        );
-    }
-
     public static String getInputErrorMessage(String input)
     {
         return String.format("Your input of \"%s\" is invalid.", input);
-    }
-
-    public static class VerticalStrutJPanel extends JPanel
-    {
-        private final double sizeMultiplier;
-
-        public VerticalStrutJPanel(double sizeMultiplier)
-        {
-            this.sizeMultiplier = sizeMultiplier;
-            setOpaque(false);
-        }
-
-        @Override
-        public Dimension getPreferredSize()
-        {
-            return getSizeRelativeToDisplayBounds(this, 0, sizeMultiplier);
-        }
     }
 }

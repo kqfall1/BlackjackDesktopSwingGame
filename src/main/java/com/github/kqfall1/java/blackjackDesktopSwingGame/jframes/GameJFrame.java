@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Optional;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Allows players to use and control a {@code BlackjackEngine} to play a game of blackjack with the help of various
@@ -193,6 +194,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
 
         gameActionJPanel = new GameActionJPanel(doubleDown, hit, split, stand, surrender);
         final var gameActionJPanelWrapper = new JPanel();
+        gameActionJPanelWrapper.setBorder(new EmptyBorder(UiConstants.GAME_SIDEBAR_INSETS));
         gameActionJPanelWrapper.setLayout(new GridBagLayout());
         gameActionJPanelWrapper.add(gameActionJPanel);
         gameInfoJPanel.getAdvanceEngineJButton().setAction(advance);

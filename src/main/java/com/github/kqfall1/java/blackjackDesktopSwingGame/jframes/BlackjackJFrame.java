@@ -16,8 +16,6 @@ public abstract class BlackjackJFrame extends JFrame
 {
     public BlackjackJFrame()
     {
-        final var iconImageHeight = 32;
-        final var iconImageWidth = 32;
         final var uiActions = UiActions.getInstance();
         final var background = new JPanel()
         {
@@ -25,15 +23,18 @@ public abstract class BlackjackJFrame extends JFrame
             public void paintComponent(Graphics g)
             {
                 super.paintComponent(g);
-                g.drawImage(UiConstants.JFRAME_BACKGROUND.getImage(), 0, 0, null);
+                g.drawImage(
+                    UiConstants.JFRAME_BACKGROUND.getImage(),
+                    0, 0,
+                    getWidth(), getHeight(),
+                    this
+                );
             }
         };
         background.setLayout(new BorderLayout());
         setContentPane(background);
-        setIconImage(BLACKJACK_JFRAME_LOGO.getImage().getScaledInstance(iconImageWidth, iconImageHeight, Image.SCALE_SMOOTH));
         setJMenuBar(new ApplicationJMenuBar(uiActions));
         uiActions.setKeystrokes(this);
-        //setResizable(false);
         setTitle(BLACKJACK_JFRAME_TITLE);
     }
 
@@ -44,6 +45,7 @@ public abstract class BlackjackJFrame extends JFrame
         final var displayBounds = getGraphicsConfiguration().getBounds();
         SwingUtilities.invokeLater(() ->
         {
+            setIconImage(BLACKJACK_JFRAME_LOGO.getImage().getScaledInstance(ICON_HEIGHT_AND_WIDTH, ICON_HEIGHT_AND_WIDTH, Image.SCALE_SMOOTH));
             setSize(new Dimension(displayBounds.width, displayBounds.height));
             revalidate();
         });

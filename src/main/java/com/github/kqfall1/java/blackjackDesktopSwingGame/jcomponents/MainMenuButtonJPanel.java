@@ -3,6 +3,7 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.jcomponents;
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiActions;
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
 import com.github.kqfall1.java.frameworks.awt.AwtUtils;
+import com.github.kqfall1.java.frameworks.awt.VerticalStrutJPanel;
 import java.awt.*;
 import java.util.Optional;
 import javax.swing.*;
@@ -22,13 +23,13 @@ public final class MainMenuButtonJPanel extends JPanel
         final var newGameButton = new MainMenuJPanelJButton(uiActions.getNewGame());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(newGameButton);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         creditsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(creditsButton);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(exitButton);
     }
@@ -44,14 +45,15 @@ public final class MainMenuButtonJPanel extends JPanel
                 jButton.setFont(new Font(
                     UiConstants.JBUTTON_LARGE_FONT_NAME,
                     Font.BOLD,
-                    UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JBUTTON_LARGE_FONT_SIZE_MULTIPLIER).height
+                    AwtUtils.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JBUTTON_LARGE_FONT_SIZE_MULTIPLIER)
+                        .orElseGet(() -> new Dimension(0, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL)).height
                 ));
             }
             revalidate();
         });
     }
 
-    private static class MainMenuJPanelJButton extends JButton
+    private static final class MainMenuJPanelJButton extends JButton
     {
         private MainMenuJPanelJButton(Action action)
         {
@@ -60,15 +62,16 @@ public final class MainMenuButtonJPanel extends JPanel
         }
 
         @Override
-        public Dimension getPreferredSize()
-        {
-            return UiConstants.getSizeRelativeToDisplayBounds(this, UiConstants.JBUTTON_LARGE_WIDTH_MULTIPLIER, UiConstants.JBUTTON_LARGE_HEIGHT_MULTIPLIER);
-        }
-
-        @Override
         public Dimension getMaximumSize()
         {
             return getPreferredSize();
+        }
+
+        @Override
+        public Dimension getPreferredSize()
+        {
+            return AwtUtils.getSizeRelativeToDisplayBounds(this, UiConstants.JBUTTON_LARGE_WIDTH_MULTIPLIER, UiConstants.JBUTTON_LARGE_HEIGHT_MULTIPLIER)
+                .orElseGet(() -> new Button(getText()).getPreferredSize());
         }
     }
 }

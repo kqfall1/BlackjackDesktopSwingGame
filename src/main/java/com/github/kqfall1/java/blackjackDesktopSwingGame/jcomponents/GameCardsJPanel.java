@@ -1,6 +1,7 @@
 package com.github.kqfall1.java.blackjackDesktopSwingGame.jcomponents;
 
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
+import com.github.kqfall1.java.frameworks.awt.VerticalStrutJPanel;
 import java.awt.*;
 import javax.swing.*;
 
@@ -25,11 +26,11 @@ public final class GameCardsJPanel extends JPanel
         dealerHandJPanel.setOpaque(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         add(dealerHandJPanel);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_LARGE_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_LARGE_MULTIPLIER));
         add(activePlayerHandJPanel);
-        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
     }
 
     public JPanel getActivePlayerHandJPanel()

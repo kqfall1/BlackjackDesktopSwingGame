@@ -35,12 +35,18 @@ public final class UiActions
                 {
                     final var configDialog = new JDialog(window, UiConstants.GAME_ACTION_CREDITS_LABEL, Dialog.ModalityType.APPLICATION_MODAL);
                     configDialog.setContentPane(new CreditsJPanel());
-                    configDialog.setSize(UiConstants.getSizeRelativeToDisplayBounds(
+                    configDialog.setPreferredSize(AwtUtils.getSizeRelativeToDisplayBounds(
                         (Component) e.getSource(),
                         UiConstants.GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER,
                         UiConstants.GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER)
+                        .orElseGet(() ->
+                        {
+                            final var displayBounds = window.getGraphicsConfiguration().getBounds();
+                            return new Dimension(displayBounds.width, displayBounds.height);
+                        })
                     );
                     configDialog.setLocationRelativeTo(window);
+                    configDialog.setSize(configDialog.getPreferredSize());
                     configDialog.setVisible(true);
                 });
             }
@@ -107,12 +113,8 @@ public final class UiActions
                     {
                         final var configDialog = new JDialog(windowJFrame, UiConstants.GAME_CONFIG_JDIALOG_TITLE, true);
                         configDialog.setContentPane(new GameConfigJPanel(windowJFrame));
-                        configDialog.setSize(UiConstants.getSizeRelativeToDisplayBounds(
-                            (Component) e.getSource(),
-                            UiConstants.GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER,
-                            UiConstants.GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER
-                        ));
                         configDialog.setLocationRelativeTo(window);
+                        configDialog.pack();
                         configDialog.setVisible(true);
                     }
                 });

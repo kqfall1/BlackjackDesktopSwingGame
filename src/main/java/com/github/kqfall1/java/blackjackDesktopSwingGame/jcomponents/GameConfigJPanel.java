@@ -15,6 +15,7 @@ import java.util.concurrent.CompletionException;
 import java.util.HashSet;
 import java.util.Optional;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Contains all {@code JComponent} objects required by a {@code MainMenuJFrame} to configure a new blackjack game.
@@ -106,6 +107,7 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
         surrenderingAllowed.setSelected(UiConstants.PREFERENCES_NODE.getBoolean(UiConstants.GAME_CONFIG_JDIALOG_SURRENDERING_ALLOWED_LABEL, false));
 
         final var jCheckBoxPanelWrapper = new JPanel();
+        jCheckBoxPanelWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
         jCheckBoxPanelWrapper.setLayout(new BoxLayout(jCheckBoxPanelWrapper, BoxLayout.Y_AXIS));
         jCheckBoxPanelWrapper.add(doublingDownOnSplitHandsAllowed);
         jCheckBoxPanelWrapper.add(loggingEnabled);
@@ -133,21 +135,27 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
 
         final var playButtonPanelWrapper = new JPanel(new GridBagLayout());
         playButtonPanelWrapper.add(playButton);
+        playButtonPanelWrapper.setBorder(new EmptyBorder(new Insets(0, 0, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL, 0)));
+
+        final var componentWrapper = new JPanel();
+        componentWrapper.setLayout(new BoxLayout(componentWrapper, BoxLayout.Y_AXIS));
+        componentWrapper.add(smallStrut1);
+        componentWrapper.add(jCheckBoxPanelWrapper);
+        componentWrapper.add(smallStrut2);
+        componentWrapper.add(jTextFieldPanelWrapper);
+        componentWrapper.add(errorJLabelPanelWrapper);
+        componentWrapper.add(playButtonPanelWrapper);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(smallStrut1);
-        add(jCheckBoxPanelWrapper);
-        add(smallStrut2);
-        add(jTextFieldPanelWrapper);
-        add(errorJLabelPanelWrapper);
-        add(playButtonPanelWrapper);
+        add(componentWrapper);
     }
 
     @Override
     public void addNotify()
     {
         super.addNotify();
-        final var smallStrutBounds = UiConstants.getSizeRelativeToDisplayBounds(smallStrut1, 0, UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER);
+        final var smallStrutBounds = AwtUtils.getSizeRelativeToDisplayBounds(smallStrut1, 0, UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER)
+            .orElseGet(() -> new Dimension(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         SwingUtilities.invokeLater(() ->
         {
             smallStrut1.setPreferredSize(smallStrutBounds);
