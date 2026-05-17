@@ -79,7 +79,7 @@ public final class UiConstants
     public static final Insets JTEXT_AREA_INSETS = new Insets(MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL, MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL);
     public static final int MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.003);
     public static final int MARGIN_VERTICAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.00475);
-    public static final double MARGIN_VERTICAL_LARGE_MUTIPLIER = 0.33333;
+    public static final double MARGIN_VERTICAL_LARGE_MULTIPLIER = 0.33333;
     public static final double MARGIN_VERTICAL_MEDIUM_MULTIPLIER = 0.09525;
     public static final double MARGIN_VERTICAL_SMALL_MULTIPLIER = 0.025;
     public static final Preferences PREFERENCES_NODE = Preferences.userRoot().node(SWING_APPLICATION_PACKAGE_NAME);
@@ -99,5 +99,22 @@ public final class UiConstants
     public static String getInputErrorMessage(String input)
     {
         return String.format("Your input of \"%s\" is invalid.", input);
+    }
+
+    public static class VerticalStrutJPanel extends JPanel
+    {
+        private final double sizeMultiplier;
+
+        public VerticalStrutJPanel(double sizeMultiplier)
+        {
+            this.sizeMultiplier = sizeMultiplier;
+            setOpaque(false);
+        }
+
+        @Override
+        public Dimension getPreferredSize()
+        {
+            return getSizeRelativeToDisplayBounds(this, 0, sizeMultiplier);
+        }
     }
 }

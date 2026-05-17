@@ -192,12 +192,15 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
         }, UiConstants.GAME_ACTION_SURRENDER_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("X"));
 
         gameActionJPanel = new GameActionJPanel(doubleDown, hit, split, stand, surrender);
+        final var gameActionJPanelWrapper = new JPanel();
+        gameActionJPanelWrapper.setLayout(new GridBagLayout());
+        gameActionJPanelWrapper.add(gameActionJPanel);
         gameInfoJPanel.getAdvanceEngineJButton().setAction(advance);
         gameInfoJPanel.getAdvanceEngineJButton().getAction().setEnabled(true);
         gameInfoJPanel.getAllInJButton().setAction(allIn);
         gameInfoJPanel.getPlayerInputJTextField().addActionListener(submit);
         gameInfoJPanel.getSubmitJButton().setAction(submit);
-        add(gameActionJPanel, BorderLayout.EAST);
+        add(gameActionJPanelWrapper, BorderLayout.EAST);
         add(gameInfoJPanel, BorderLayout.WEST);
         add(gameCardsJPanel, BorderLayout.CENTER);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

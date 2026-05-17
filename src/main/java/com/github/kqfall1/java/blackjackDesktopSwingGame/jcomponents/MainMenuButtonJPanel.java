@@ -4,8 +4,6 @@ import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiActions;
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
 import com.github.kqfall1.java.frameworks.awt.AwtUtils;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import javax.swing.*;
 
@@ -24,13 +22,13 @@ public final class MainMenuButtonJPanel extends JPanel
         final var newGameButton = new MainMenuJPanelJButton(uiActions.getNewGame());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        add(Box.createVerticalStrut(0));
+        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(newGameButton);
-        add(Box.createVerticalStrut(0));
+        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         creditsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(creditsButton);
-        add(Box.createVerticalStrut(0));
+        add(new UiConstants.VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(exitButton);
     }
@@ -41,27 +39,14 @@ public final class MainMenuButtonJPanel extends JPanel
         super.addNotify();
         SwingUtilities.invokeLater(() ->
         {
-            final var componentList = java.util.List.of(getComponents());
-            final var smallStrutBounds = UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER);
-
-            for (Component component : AwtUtils.getNestedComponents(Optional.empty(), this))
+            for (Component jButton : AwtUtils.getNestedComponents(Optional.of(JButton.class), this))
             {
-                if (component instanceof JButton jButton)
-                {
-                    jButton.setFont(new Font(
-                        UiConstants.JBUTTON_LARGE_FONT_NAME,
-                        Font.BOLD,
-                        UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JBUTTON_LARGE_FONT_SIZE_MULTIPLIER).height
-                    ));
-                }
-                else
-                {
-                    final var componentIndex = componentList.indexOf(component);
-                    remove(component);
-                    add(Box.createVerticalStrut(smallStrutBounds.height), componentIndex);
-                }
+                jButton.setFont(new Font(
+                    UiConstants.JBUTTON_LARGE_FONT_NAME,
+                    Font.BOLD,
+                    UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JBUTTON_LARGE_FONT_SIZE_MULTIPLIER).height
+                ));
             }
-
             revalidate();
         });
     }
