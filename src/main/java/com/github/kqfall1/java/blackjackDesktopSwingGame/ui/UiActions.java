@@ -31,12 +31,15 @@ public final class UiActions
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                final var optionalWindow = AwtUtils.getRootWindow(e);
-                optionalWindow.ifPresent(window ->
+                AwtUtils.getRootWindow(e).ifPresent(window ->
                 {
                     final var configDialog = new JDialog(window, UiConstants.GAME_ACTION_CREDITS_LABEL, Dialog.ModalityType.APPLICATION_MODAL);
                     configDialog.setContentPane(new CreditsJPanel());
-                    configDialog.setSize(UiConstants.GAME_JDIALOG_DIMENSION);
+                    configDialog.setSize(UiConstants.getSizeRelativeToDisplayBounds(
+                        (Component) e.getSource(),
+                        UiConstants.GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER,
+                        UiConstants.GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER)
+                    );
                     configDialog.setLocationRelativeTo(window);
                     configDialog.setVisible(true);
                 });
@@ -98,14 +101,17 @@ public final class UiActions
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                final var optionalWindow = AwtUtils.getRootWindow(e);
-                optionalWindow.ifPresent(window ->
+                AwtUtils.getRootWindow(e).ifPresent(window ->
                 {
                     if (window instanceof JFrame windowJFrame)
                     {
                         final var configDialog = new JDialog(windowJFrame, UiConstants.GAME_CONFIG_JDIALOG_TITLE, true);
                         configDialog.setContentPane(new GameConfigJPanel(windowJFrame));
-                        configDialog.setSize(UiConstants.GAME_JDIALOG_DIMENSION);
+                        configDialog.setSize(UiConstants.getSizeRelativeToDisplayBounds(
+                            (Component) e.getSource(),
+                            UiConstants.GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER,
+                            UiConstants.GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER
+                        ));
                         configDialog.setLocationRelativeTo(window);
                         configDialog.setVisible(true);
                     }

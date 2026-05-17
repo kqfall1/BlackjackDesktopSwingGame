@@ -28,11 +28,7 @@ public final class CardJLabel extends JLabel
     @Override
     public Dimension getPreferredSize()
     {
-        final var graphicsConfig = SwingUtilities.getAncestorOfClass(Frame.class, this).getGraphicsConfiguration();
-        return new Dimension(
-            (int) (graphicsConfig.getBounds().width * UiConstants.CARD_IMAGE_WIDTH_MULTIPLIER),
-            (int) (graphicsConfig.getBounds().height * UiConstants.CARD_IMAGE_HEIGHT_MULTIPLIER)
-        );
+        return UiConstants.getSizeRelativeToDisplayBounds(this, UiConstants.CARD_IMAGE_WIDTH_MULTIPLIER, UiConstants.CARD_IMAGE_HEIGHT_MULTIPLIER);
     }
 
     public void render(boolean faceUp)

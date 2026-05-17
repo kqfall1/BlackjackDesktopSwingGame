@@ -56,19 +56,19 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
 
             if (blackjackEngine.getState() == BlackjackEngineState.START)
             {
-                executorService.submit(blackjackEngine::start);
+                getExecutorService().submit(blackjackEngine::start);
             }
             else if (blackjackEngine.getState() == BlackjackEngineState.PLAYER_TURN)
             {
-                executorService.submit(blackjackEngine::advanceAfterDrawingRoundCompletedPlayer);
+                getExecutorService().submit(blackjackEngine::advanceAfterDrawingRoundCompletedPlayer);
             }
             else if (blackjackEngine.getState() == BlackjackEngineState.SHOWING_DOWN)
             {
-                executorService.submit(blackjackEngine::showdown);
+                getExecutorService().submit(blackjackEngine::showdown);
             }
             else if (blackjackEngine.getState() == BlackjackEngineState.SHOWING_DOWN_FINAL_HAND)
             {
-                executorService.submit(() ->
+                getExecutorService().submit(() ->
                 {
                     blackjackEngine.advanceAfterShowdown();
                     blackjackEngine.reset();
@@ -79,32 +79,35 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
         final var allIn = UiActions.getInstance().getGameAction(e ->
         {
             toggleGameInfoJPanelPlayerInputComponents(false);
-            blackjackEngine.placeBet(blackjackEngine.getPlayer().getChips());
-            blackjackEngine.deal();
-            SwingUtilities.invokeLater(() -> gameCardsJPanel.setVisible(true));
-            blackjackEngine.advanceAfterDeal();
+            getExecutorService().submit(() ->
+            {
+                blackjackEngine.placeBet(blackjackEngine.getPlayer().getChips());
+                blackjackEngine.deal();
+                SwingUtilities.invokeLater(() -> gameCardsJPanel.setVisible(true));
+                blackjackEngine.advanceAfterDeal();
+            });
         }, UiConstants.GAME_ACTION_ALL_IN_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("A"));
         final var doubleDown = UiActions.getInstance().getGameAction(e ->
         {
             disableGameActionJPanelJButtons();
-            executorService.submit(blackjackEngine::playerDoubleDown);
+            getExecutorService().submit(blackjackEngine::playerDoubleDown);
             updateUiForPlayerChipAmount();
         }, UiConstants.GAME_ACTION_DOUBLE_DOWN_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("D"));
         final var hit = UiActions.getInstance().getGameAction(e ->
         {
             disableGameActionJPanelJButtons();
-            executorService.submit(blackjackEngine::playerHit);
+            getExecutorService().submit(blackjackEngine::playerHit);
         }, UiConstants.GAME_ACTION_HIT_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("H"));
         final var split = UiActions.getInstance().getGameAction(e ->
         {
             disableGameActionJPanelJButtons();
-            executorService.submit(blackjackEngine::playerSplit);
+            getExecutorService().submit(blackjackEngine::playerSplit);
             updateUiForPlayerChipAmount();
         }, UiConstants.GAME_ACTION_SPLIT_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("P"));
         final var stand = UiActions.getInstance().getGameAction(e ->
         {
             disableGameActionJPanelJButtons();
-            executorService.submit(blackjackEngine::playerStand);
+            getExecutorService().submit(blackjackEngine::playerStand);
         }, UiConstants.GAME_ACTION_STAND_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("T"));
         final var submit = UiActions.getInstance().getGameAction(e ->
         {
@@ -118,15 +121,18 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
                     if (throwable == null)
                     {
                         CompletableFuture.completedFuture(result)
-                            .thenApplyAsync(BigDecimal::valueOf)
+                            .thenApplyAsync(BigDecimal::valueOf, getExecutorService())
                             .thenAccept(blackjackEngine::placeBet)
                             .whenComplete((betResult, betThrowable) ->
                             {
                                 if (betThrowable == null)
                                 {
-                                    blackjackEngine.deal();
-                                    SwingUtilities.invokeLater(() -> gameCardsJPanel.setVisible(true));
-                                    blackjackEngine.advanceAfterDeal();
+                                    getExecutorService().submit(() ->
+                                    {
+                                        blackjackEngine.deal();
+                                        SwingUtilities.invokeLater(() -> gameCardsJPanel.setVisible(true));
+                                        blackjackEngine.advanceAfterDeal();
+                                    });
                                 }
                                 else
                                 {
@@ -163,11 +169,11 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
                     {
                         if (result == YesNoInput.YES)
                         {
-                            CompletableFuture.supplyAsync(blackjackEngine::acceptInsuranceBet, executorService).thenAccept(blackjackEngine::advanceAfterInsuranceBet);
+                            CompletableFuture.supplyAsync(blackjackEngine::acceptInsuranceBet, getExecutorService()).thenAccept(blackjackEngine::advanceAfterInsuranceBet);
                         }
                         else
                         {
-                            executorService.submit(blackjackEngine::declineInsuranceBet);
+                            getExecutorService().submit(blackjackEngine::declineInsuranceBet);
                             SwingUtilities.invokeLater(() -> gameInfoJPanel.getPlayerInputJTextField().setText(""));
                         }
                     }
@@ -182,7 +188,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
         final var surrender = UiActions.getInstance().getGameAction(e ->
         {
             disableGameActionJPanelJButtons();
-            executorService.submit(blackjackEngine::playerSurrender);
+            getExecutorService().submit(blackjackEngine::playerSurrender);
         }, UiConstants.GAME_ACTION_SURRENDER_LABEL, actionMap, inputMap, KeyStroke.getKeyStroke("X"));
 
         gameActionJPanel = new GameActionJPanel(doubleDown, hit, split, stand, surrender);
@@ -266,8 +272,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
     public void onDrawingRoundCompletedPlayer(HandContext handContext)
     {
         disableGameActionJPanelJButtons();
-        gameInfoJPanel.getAdvanceEngineJButton().getAction().setEnabled(true);
-        gameInfoJPanel.getAdvanceEngineJButton().setEnabled(true);
+        SwingUtilities.invokeLater(() -> gameInfoJPanel.getAdvanceEngineJButton().getAction().setEnabled(true));
     }
 
     @Override
@@ -289,7 +294,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
     @Override
     public void onGameCompleted()
     {
-        executorService.shutdown();
+        getExecutorService().shutdown();
         SwingUtilities.invokeLater(() ->
         {
             gameInfoJPanel.getPlayerChipAmountJLabel().setText(UiConstants.GAME_INFO_JPANEL_PLAYER_CHIP_AMOUNT_LABEL);
@@ -413,9 +418,9 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
     @Override
     public void onShowdownStarted(Hand dealerHand, HandContext handContext)
     {
-        final var dealerDownCardJLabel = ((CardJLabel) gameCardsJPanel.getDealerHandJPanel().getComponents()[BlackjackConstants.INITIAL_CARD_COUNT - 1]);
         SwingUtilities.invokeLater(() ->
         {
+            final var dealerDownCardJLabel = ((CardJLabel) gameCardsJPanel.getDealerHandJPanel().getComponents()[BlackjackConstants.INITIAL_CARD_COUNT - 1]);
             gameInfoJPanel.getAdvanceEngineJButton().getAction().setEnabled(false);
             dealerDownCardJLabel.render(true);
         });
@@ -451,7 +456,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
                     blackjackEngine.getPlayer()
                 ));
             });
-            case DEALER_TURN -> executorService.submit(() ->
+            case DEALER_TURN -> getExecutorService().submit(() ->
             {
                 blackjackEngine.dealerTurn();
                 blackjackEngine.advanceAfterDealerTurn();
@@ -460,7 +465,7 @@ public class GameJFrame extends BlackjackJFrame implements BlackjackEngineListen
             {
                 if (oldState != BlackjackEngineState.SHOWING_DOWN)
                 {
-                    executorService.submit(blackjackEngine::showdown);
+                    getExecutorService().submit(blackjackEngine::showdown);
                 }
             }
         }

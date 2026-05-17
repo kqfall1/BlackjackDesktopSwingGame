@@ -43,6 +43,8 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
     private final NumberInputter shoePenetrationInput;
     private final JLabel shoePenetrationJLabel;
     private final JCheckBox shouldDealerHitOnSoft17;
+    private final Component smallStrut1;
+    private final Component smallStrut2;
     private final JCheckBox splittingAcesAllowed;
     private final JCheckBox surrenderingAllowed;
 
@@ -50,7 +52,6 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
     {
         final var actionMap = getActionMap();
         final var inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        final var mainPanelDimension = UiConstants.GAME_JDIALOG_DIMENSION;
         final var readConfig = new AbstractAction()
         {
             @Override
@@ -64,7 +65,7 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
         doublingDownOnSplitHandsAllowed = new JCheckBox(UiConstants.GAME_CONFIG_JDIALOG_DOUBLING_DOWN_ON_SPLIT_HANDS_ALLOWED_LABEL);
         doublingDownOnSplitHandsAllowed.setSelected(UiConstants.PREFERENCES_NODE.getBoolean(UiConstants.GAME_CONFIG_JDIALOG_DOUBLING_DOWN_ON_SPLIT_HANDS_ALLOWED_LABEL, false));
         errorJLabel = new JLabel();
-        errorJLabel.setMaximumSize(new Dimension(mainPanelDimension.width, errorJLabel.getHeight()));
+        errorJLabel.setMaximumSize(new Dimension(getWidth(), errorJLabel.getHeight()));
         inputMap.put(KeyStroke.getKeyStroke("ENTER"), READ_CONFIG_KEY);
         loggingEnabled = new JCheckBox(UiConstants.GAME_CONFIG_JDIALOG_LOGGING_ENABLED_LABEL);
         loggingEnabled.setSelected(UiConstants.PREFERENCES_NODE.getBoolean(UiConstants.GAME_CONFIG_JDIALOG_LOGGING_ENABLED_LABEL, false));
@@ -97,6 +98,8 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
         shoePenetrationJLabel = new JLabel(UiConstants.GAME_CONFIG_JDIALOG_SHOE_PENETRATION_LABEL);
         shouldDealerHitOnSoft17 = new JCheckBox(UiConstants.GAME_CONFIG_JDIALOG_SHOULD_DEALER_HIT_ON_SOFT_17_LABEL);
         shouldDealerHitOnSoft17.setSelected(UiConstants.PREFERENCES_NODE.getBoolean(UiConstants.GAME_CONFIG_JDIALOG_SHOULD_DEALER_HIT_ON_SOFT_17_LABEL, false));
+        smallStrut1 = Box.createVerticalStrut(0);
+        smallStrut2 = Box.createVerticalStrut(0);
         splittingAcesAllowed = new JCheckBox(UiConstants.GAME_CONFIG_JDIALOG_SPLITTING_ACES_ALLOWED_LABEL);
         splittingAcesAllowed.setSelected(UiConstants.PREFERENCES_NODE.getBoolean(UiConstants.GAME_CONFIG_JDIALOG_SPLITTING_ACES_ALLOWED_LABEL, false));
         surrenderingAllowed = new JCheckBox(UiConstants.GAME_CONFIG_JDIALOG_SURRENDERING_ALLOWED_LABEL);
@@ -132,12 +135,25 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
         playButtonPanelWrapper.add(playButton);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
+        add(smallStrut1);
         add(jCheckBoxPanelWrapper);
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
+        add(smallStrut2);
         add(jTextFieldPanelWrapper);
         add(errorJLabelPanelWrapper);
         add(playButtonPanelWrapper);
+    }
+
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        final var smallStrutBounds = UiConstants.getSizeRelativeToDisplayBounds(smallStrut1, 0, UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER);
+        SwingUtilities.invokeLater(() ->
+        {
+            smallStrut1.setPreferredSize(smallStrutBounds);
+            smallStrut2.setPreferredSize(smallStrutBounds);
+            revalidate();
+        });
     }
 
     private Component[] getErrorRelatedComponents()

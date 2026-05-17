@@ -14,6 +14,7 @@ public class GameActionJPanel extends JPanel
 {
     private final JButton doubleDownJButton;
     private final JButton hitJButton;
+    private final Component largeStrut;
     private final JButton splitJButton;
     private final JButton standJButton;
     private final JButton surrenderJButton;
@@ -24,15 +25,15 @@ public class GameActionJPanel extends JPanel
         doubleDownJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         hitJButton = new JButton(hit);
         hitJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        largeStrut = Box.createVerticalStrut(0);
         splitJButton = new JButton(split);
         splitJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         standJButton = new JButton(stand);
         standJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         surrenderJButton = new JButton(surrender);
         surrenderJButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_LARGE));
+        add(largeStrut);
         add(doubleDownJButton);
         add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(hitJButton);
@@ -42,6 +43,17 @@ public class GameActionJPanel extends JPanel
         add(standJButton);
         add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         add(surrenderJButton);
+    }
+
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        SwingUtilities.invokeLater(() ->
+        {
+            largeStrut.setPreferredSize(UiConstants.getSizeRelativeToDisplayBounds(largeStrut, 0, UiConstants.MARGIN_VERTICAL_LARGE_MUTIPLIER));
+            revalidate();
+        });
     }
 
     public JButton getDoubleDownJButton()

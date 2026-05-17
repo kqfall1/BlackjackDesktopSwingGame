@@ -2,6 +2,7 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.ui;
 
 import com.github.kqfall1.java.blackjackEngine.cards.Shoe;
 import java.awt.*;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,7 +15,6 @@ import javax.swing.border.Border;
  */
 public final class UiConstants
 {
-    public static final Dimension SCREEN_BOUNDS = Toolkit.getDefaultToolkit().getScreenSize();
     public static final String SWING_APPLICATION_PACKAGE_NAME = "com.github.kqfall1.java.blackjackEngine";
     public static final String BACK_OF_CARD_IMAGE_FILE_NAME = "back_of_card.png";
     public static final ImageIcon BLACKJACK_JFRAME_LOGO = new ImageIcon(UiConstants.class.getResource("/images/logo.jpg"));
@@ -52,13 +52,9 @@ public final class UiConstants
     public static final double GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER = 0.5;
     public static final String GAME_INFO_JPANEL_ACTIVE_HAND_CONTEXT_HAND_SCORE_LABEL = "Current score: ";
     public static final String GAME_INFO_JPANEL_DEALER_HAND_SCORE_LABEL = "Dealer's score: ";
-    public static final int GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_WIDTH  = (int) (SCREEN_BOUNDS.getWidth()  * 0.06);
-    public static final int GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_HEIGHT = (int) (SCREEN_BOUNDS.getHeight() * 0.4525);
+    public static final double GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_WIDTH_MULTIPLIER = 0.06;
+    public static final double GAME_INFO_JPANEL_ENGINE_JSCROLL_PANEL_HEIGHT_MULTIPLIER = 0.4525;
     public static final String GAME_INFO_JPANEL_PLAYER_CHIP_AMOUNT_LABEL = "Player's chips: ";
-    public static final Dimension GAME_JDIALOG_DIMENSION = new Dimension(
-        (int) (SCREEN_BOUNDS.getWidth() * GAME_CONFIG_JDIALOG_WIDTH_MULTIPLIER),
-        (int) (SCREEN_BOUNDS.getHeight() * GAME_CONFIG_JDIALOG_HEIGHT_MULTIPLIER)
-    );
     public static final String GAME_MESSAGE_BET_PLACED = "You have placed a bet of ";
     public static final String GAME_MESSAGE_BUSTED = "You have busted. Better luck next time!";
     public static final String GAME_MESSAGE_INSURANCE_BET_LOST = "You have lost your insurance bet.";
@@ -69,23 +65,36 @@ public final class UiConstants
     public static final String GAME_MESSAGE_SHOWDOWN_COLLECTION = "You have collected $";
     public static final String GAME_MESSAGE_SHOWDOWN_WON = "You have won a showdown!";
     public static final String GAME_MESSAGE_SPLIT = "You have elected to split.";
-    public static final Font JBUTTON_LARGE_FONT = new Font("Rockwell", Font.BOLD,  (int) (SCREEN_BOUNDS.getHeight() * 0.017));
+    public static final double JBUTTON_LARGE_FONT_SIZE_MULTIPLIER = 0.017;
+    public static final String JBUTTON_LARGE_FONT_NAME = "Rockwell";
+    public static final double JBUTTON_LARGE_HEIGHT_MULTIPLIER = 0.09525;
+    public static final double JBUTTON_LARGE_WIDTH_MULTIPLIER  = 0.1785;
     public static final ImageIcon JFRAME_BACKGROUND = new ImageIcon(UiConstants.class.getResource("/images/background.jpg"));
-    public static final Font JLABEL_LARGE_FONT  = new Font("Georgia",  Font.PLAIN, (int) (SCREEN_BOUNDS.getHeight() * 0.01525));
+    public static final double JLABEL_LARGE_FONT_SIZE_MULTIPLIER = 0.01525;
+    public static final String JLABEL_LARGE_FONT_NAME = "Georgia";
     public static final String JMENU_FILE_LABEL = "File";
-    public static final int MARGIN_HORIZONTAL_EXTRA_SMALL = (int) (SCREEN_BOUNDS.getWidth() * 0.00595);
-    public static final int MARGIN_VERTICAL_EXTRA_SMALL = (int) (SCREEN_BOUNDS.getHeight() * 0.0095);
+    public static final Dimension PRIMARY_SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int MARGIN_HORIZONTAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.00595);
+    public static final int MARGIN_VERTICAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.0095);
     public static final Insets JTEXT_AREA_INSETS = new Insets(MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL, MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL);
-    public static final int MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL = (int) (SCREEN_BOUNDS.getWidth() * 0.003);
-    public static final int MARGIN_HORIZONTAL_SMALL = (int) (SCREEN_BOUNDS.getWidth() * 0.015);
-    public static final int MARGIN_VERTICAL_EXTRA_EXTRA_SMALL = (int) (SCREEN_BOUNDS.getHeight() * 0.00475);
-    public static final int MARGIN_VERTICAL_LARGE = (int) (SCREEN_BOUNDS.getHeight() * 0.33333);
-    public static final int MARGIN_VERTICAL_MEDIUM = (int) (SCREEN_BOUNDS.getHeight() * 0.09525);
-    public static final int MARGIN_VERTICAL_SMALL = (int) (SCREEN_BOUNDS.getHeight() * 0.025);
+    public static final int MARGIN_HORIZONTAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.003);
+    public static final int MARGIN_VERTICAL_EXTRA_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.00475);
+    public static final double MARGIN_VERTICAL_LARGE_MUTIPLIER = 0.33333;
+    public static final double MARGIN_VERTICAL_MEDIUM_MULTIPLIER = 0.09525;
+    public static final double MARGIN_VERTICAL_SMALL_MULTIPLIER = 0.025;
     public static final Preferences PREFERENCES_NODE = Preferences.userRoot().node(SWING_APPLICATION_PACKAGE_NAME);
     public static final int SLEEP_INTERVAL = 1000;
 
     private UiConstants() {}
+
+    public static Dimension getSizeRelativeToDisplayBounds(Component component, double widthMultiplier, double heightMultiplier)
+    {
+        final var optionalDisplayBounds = Optional.of(SwingUtilities.getAncestorOfClass(Frame.class, component).getGraphicsConfiguration().getBounds());
+        return new Dimension(
+            (int) (optionalDisplayBounds.orElse(new Rectangle()).getWidth() * widthMultiplier),
+            (int) (optionalDisplayBounds.orElse(new Rectangle()).getHeight() * heightMultiplier)
+        );
+    }
 
     public static String getInputErrorMessage(String input)
     {

@@ -2,7 +2,11 @@ package com.github.kqfall1.java.blackjackDesktopSwingGame.jcomponents;
 
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiActions;
 import com.github.kqfall1.java.blackjackDesktopSwingGame.ui.UiConstants;
+import com.github.kqfall1.java.frameworks.awt.AwtUtils;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 import javax.swing.*;
 
 /**
@@ -13,28 +17,53 @@ import javax.swing.*;
  */
 public final class MainMenuButtonJPanel extends JPanel
 {
-    private static final int JBUTTON_HEIGHT = 100;
-    private static final int JBUTTON_WIDTH = 300;
-
     public MainMenuButtonJPanel(UiActions uiActions)
     {
+        final var creditsButton = new MainMenuJPanelJButton(uiActions.getCredits());
+        final var exitButton = new MainMenuJPanelJButton(uiActions.getExit());
+        final var newGameButton = new MainMenuJPanelJButton(uiActions.getNewGame());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
-        final var newGameButton = new MainMenuJPanelJButton(uiActions.getNewGame());
+        add(Box.createVerticalStrut(0));
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(newGameButton);
-
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
-        final var creditsButton = new MainMenuJPanelJButton(uiActions.getCredits());
+        add(Box.createVerticalStrut(0));
         creditsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(creditsButton);
-
-        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_SMALL));
-        final var exitButton = new MainMenuJPanelJButton(uiActions.getExit());
+        add(Box.createVerticalStrut(0));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(exitButton);
+    }
+
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        SwingUtilities.invokeLater(() ->
+        {
+            final var componentList = java.util.List.of(getComponents());
+            final var smallStrutBounds = UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER);
+
+            for (Component component : AwtUtils.getNestedComponents(Optional.empty(), this))
+            {
+                if (component instanceof JButton jButton)
+                {
+                    jButton.setFont(new Font(
+                        UiConstants.JBUTTON_LARGE_FONT_NAME,
+                        Font.BOLD,
+                        UiConstants.getSizeRelativeToDisplayBounds(this, 0, UiConstants.JBUTTON_LARGE_FONT_SIZE_MULTIPLIER).height
+                    ));
+                }
+                else
+                {
+                    final var componentIndex = componentList.indexOf(component);
+                    remove(component);
+                    add(Box.createVerticalStrut(smallStrutBounds.height), componentIndex);
+                }
+            }
+
+            revalidate();
+        });
     }
 
     private static class MainMenuJPanelJButton extends JButton
@@ -42,20 +71,19 @@ public final class MainMenuButtonJPanel extends JPanel
         private MainMenuJPanelJButton(Action action)
         {
             super(action);
-            setFont(UiConstants.JBUTTON_LARGE_FONT);
             setForeground(Color.BLACK);
+        }
+
+        @Override
+        public Dimension getPreferredSize()
+        {
+            return UiConstants.getSizeRelativeToDisplayBounds(this, UiConstants.JBUTTON_LARGE_WIDTH_MULTIPLIER, UiConstants.JBUTTON_LARGE_HEIGHT_MULTIPLIER);
         }
 
         @Override
         public Dimension getMaximumSize()
         {
             return getPreferredSize();
-        }
-
-        @Override
-        public Dimension getPreferredSize()
-        {
-            return new Dimension(JBUTTON_WIDTH, JBUTTON_HEIGHT);
         }
     }
 }

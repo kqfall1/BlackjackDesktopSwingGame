@@ -34,8 +34,19 @@ public abstract class BlackjackJFrame extends JFrame
         setJMenuBar(new ApplicationJMenuBar(uiActions));
         uiActions.setKeystrokes(this);
         //setResizable(false);
-        setSize(SCREEN_BOUNDS);
         setTitle(BLACKJACK_JFRAME_TITLE);
+    }
+
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        final var displayBounds = getGraphicsConfiguration().getBounds();
+        SwingUtilities.invokeLater(() ->
+        {
+            setSize(new Dimension(displayBounds.width, displayBounds.height));
+            revalidate();
+        });
     }
 
     private static class ApplicationJMenuBar extends JMenuBar
