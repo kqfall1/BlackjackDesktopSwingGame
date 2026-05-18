@@ -158,6 +158,7 @@ public final class GameConfigJPanel extends JPanel implements FailurePresenter
             .orElseGet(() -> new Dimension(UiConstants.MARGIN_VERTICAL_EXTRA_SMALL, UiConstants.MARGIN_VERTICAL_EXTRA_SMALL));
         SwingUtilities.invokeLater(() ->
         {
+            ((JTextField) playerInitialChipsInput).requestFocusInWindow();
             smallStrut1.setPreferredSize(smallStrutBounds);
             smallStrut2.setPreferredSize(smallStrutBounds);
             revalidate();
