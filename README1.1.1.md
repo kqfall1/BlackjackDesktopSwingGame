@@ -16,7 +16,7 @@ Many thanks for playing! Good luck!
 - kqfall1
 - 10/05/2026, 8:02PM
 
-v1.1.0 Change Log: 
+v1.1.1 Change Log: 
 - Fixed bugs that involved BlackjackEngine logic running on the EDT.
 - Made the GUI layout dynamic to accommodate various possible display sizes. 
 - Tweaked spacing, font sizes, component sizes, etc. 
@@ -24,4 +24,4 @@ v1.1.0 Change Log:
 - Improved the UI/UX. 
 
 - kqfall1
-- 10/17/2026, 10:00PM
+- 10/17/2026, 10:28PM
