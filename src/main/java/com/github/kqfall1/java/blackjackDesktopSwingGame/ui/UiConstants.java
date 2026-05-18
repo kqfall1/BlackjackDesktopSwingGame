@@ -30,7 +30,7 @@ public final class UiConstants
     public static final String GAME_ACTION_DOUBLE_DOWN_LABEL = "Double Down";
     public static final String GAME_ACTION_EXIT_LABEL = "Exit";
     public static final String GAME_ACTION_HIT_LABEL = "Hit";
-    public static final double GAME_ACTION_JBUTTON_HEIGHT_MULTIPLIER = 0.02;
+    public static final double GAME_ACTION_JBUTTON_HEIGHT_MULTIPLIER = 0.05;
     public static final double GAME_ACTION_JBUTTON_WIDTH_MULTIPLIER = 0.075;
     public static final String GAME_ACTION_MAIN_MENU_LABEL = "Main Menu";
     public static final String GAME_ACTION_NEW_GAME_LABEL = "New Game";
@@ -77,9 +77,9 @@ public final class UiConstants
     public static final double JBUTTON_LARGE_HEIGHT_MULTIPLIER = 0.09525;
     public static final double JBUTTON_LARGE_WIDTH_MULTIPLIER  = 0.1785;
     public static final ImageIcon JFRAME_BACKGROUND = new ImageIcon(UiConstants.class.getResource("/images/background.jpg"));
-    public static final double JLABEL_LARGE_FONT_SIZE_MULTIPLIER = 0.01525;
+    public static final double JLABEL_LARGE_FONT_SIZE_MULTIPLIER = 0.0175;
     public static final String JLABEL_LARGE_FONT_NAME = "Georgia";
-    public static final String JMENU_FILE_LABEL = "File";
+    public static final String JMENU_GAME_LABEL = "Game";
     public static final int MARGIN_HORIZONTAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getWidth() * 0.00595);
     public static final int MARGIN_VERTICAL_EXTRA_SMALL = (int) (PRIMARY_SCREEN_SIZE.getHeight() * 0.0095);
     public static final Insets JTEXT_AREA_INSETS = new Insets(MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL, MARGIN_VERTICAL_EXTRA_SMALL, MARGIN_HORIZONTAL_EXTRA_SMALL);

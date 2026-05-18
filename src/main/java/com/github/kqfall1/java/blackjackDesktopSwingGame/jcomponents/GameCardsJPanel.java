@@ -26,7 +26,7 @@ public final class GameCardsJPanel extends JPanel
         dealerHandJPanel.setOpaque(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_SMALL_MULTIPLIER));
+        add(Box.createVerticalStrut(UiConstants.MARGIN_VERTICAL_EXTRA_EXTRA_SMALL));
         add(dealerHandJPanel);
         add(new VerticalStrutJPanel(UiConstants.MARGIN_VERTICAL_LARGE_MULTIPLIER));
         add(activePlayerHandJPanel);

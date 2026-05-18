@@ -55,12 +55,12 @@ public abstract class BlackjackJFrame extends JFrame
     {
         public ApplicationJMenuBar(UiActions uiActions)
         {
-            final var fileMenu = new JMenu(UiConstants.JMENU_FILE_LABEL);
-            fileMenu.add(uiActions.getExit());
-            fileMenu.add(uiActions.getNewGame());
-            fileMenu.add(uiActions.getMainMenu());
-            fileMenu.add(uiActions.getCredits());
-            add(fileMenu);
+            final var gameMenu = new JMenu(UiConstants.JMENU_GAME_LABEL);
+            gameMenu.add(uiActions.getExit());
+            gameMenu.add(uiActions.getNewGame());
+            gameMenu.add(uiActions.getMainMenu());
+            gameMenu.add(uiActions.getCredits());
+            add(gameMenu);
         }
     }
 }
