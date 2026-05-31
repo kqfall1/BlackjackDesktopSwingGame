@@ -17,8 +17,8 @@ through Windows Settings.
 
 Many thanks for playing! Good luck!
 
-- kqfall1
-- 10/05/2026, 8:02PM
+kqfall1
+10/05/2026, 8:02PM
 
 v1.1.1 Change Log:
 - Fixed bugs that involved BlackjackEngine logic running on the EDT.
@@ -27,5 +27,5 @@ v1.1.1 Change Log:
 - Changed the "File" menu to be named "Game".
 - Improved the UI/UX.
 
-- kqfall1
-- 10/17/2026, 10:28PM
+kqfall1
+10/17/2026, 10:28PM
